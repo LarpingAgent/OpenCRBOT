@@ -1,0 +1,18 @@
+{
+  "schema": "opencrbot.calibration.v1",
+  "name": "clash-ai-reference-starting-point",
+  "validated_for": null,
+  "screen_orientation": "portrait",
+  "arena_crop": [0.02, 0.035, 0.96, 0.684],
+  "hand_boxes": [
+    [0.231, 0.865, 0.391, 0.955],
+    [0.418, 0.865, 0.578, 0.955],
+    [0.607, 0.865, 0.767, 0.955],
+    [0.795, 0.865, 0.955, 0.955]
+  ],
+  "elixir_bar": [0.285, 0.978, 0.955, 0.984],
+  "battle_indicator": [0.25, 0.979, 0.27, 0.983],
+  "known_deck": [],
+  "board_y_flipped": true,
+  "notes": "Starting geometry copied from the MIT-licensed clash-ai phone profile. It is not calibrated or validated for Google Play Games on PC. Edit regions from your own screenshots and add your current eight card names to known_deck before relying on results."
+}
