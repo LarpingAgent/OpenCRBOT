@@ -93,7 +93,7 @@ def _read_confirmation(prompt: str, timeout_s: float) -> tuple[str, str | None]:
 def _confirmed_action(handle: int, serial: str, provider: VisionProvider, calibration: Calibration,
                       recommend: Callable[[PublicObservation], Recommendation], card_costs: dict[str, int],
                       observation: PublicObservation, recommendation: Recommendation, source: bytes,
-                      overlay, output_dir: Path, run_stamp: int,
+                      overlay, output_dir: Path, actions_path: Path, run_stamp: int,
                       frame_id: int) -> tuple[dict, int, str | None, bool]:
     """Ask before one play, refresh it, dispatch once, then verify the transition."""
     if (recommendation.card_slot is None or recommendation.card is None
@@ -134,6 +134,17 @@ def _confirmed_action(handle: int, serial: str, provider: VisionProvider, calibr
     print(f"Action preview: {overlay_path.resolve()}", flush=True)
     print(f"Suggested: slot {recommendation.card_slot + 1} {recommendation.card} at "
           f"({recommendation.target_x:.3f}, {recommendation.target_y:.3f})", flush=True)
+    with actions_path.open("a", encoding="utf-8") as action_stream:
+        action_stream.write(json.dumps({
+            "status": "confirmation_requested",
+            "frame_id": observation.frame_id,
+            "card_slot": recommendation.card_slot,
+            "card": recommendation.card,
+            "target": [recommendation.target_x, recommendation.target_y],
+            "preview": str(preview),
+            "overlay_preview": str(overlay_path),
+            "timeout_s": _CONFIRMATION_MAX_AGE_MS / 1000,
+        }, ensure_ascii=False) + "\n")
     confirmation_status, typed = _read_confirmation(
         f'Type {TRAINING_CAMP_CONFIRMATION!r} to execute this one play, or press Enter to skip '
         f'({int(_CONFIRMATION_MAX_AGE_MS / 1000)} seconds; timeout stops the run): ',
@@ -259,6 +270,8 @@ def watch_window(handle: int, serial: str, provider: VisionProvider, output_dir:
                  card_costs: dict[str, int] | None = None) -> tuple[int, Path, Path | None]:
     if confirm_actions and (calibration is None or not card_costs):
         raise ValueError("Confirmed action mode requires calibration and card costs")
+    if confirm_actions and not sys.stdin.isatty():
+        raise RuntimeError("Confirmed action mode requires an interactive terminal (TTY)")
     output_dir.mkdir(parents=True, exist_ok=True)
     stamp = time.time_ns()
     output = output_dir / f"live-{stamp}.jsonl"
@@ -346,9 +359,11 @@ def watch_window(handle: int, serial: str, provider: VisionProvider, output_dir:
                                    f"({suggestion.target_x:.2f}, {suggestion.target_y:.2f}) — {message}")
                     print(f"Frame {frame_id}: {suggestion.status} — {message}", flush=True)
                     if confirm_actions and suggestion.status == "suggest":
+                        if actions_path is None:
+                            raise RuntimeError("Confirmed action log is unavailable")
                         event, frame_id, refreshed_digest, stop = _confirmed_action(
                             handle, serial, provider, calibration, recommend, card_costs,
-                            observation, suggestion, source, overlay, output_dir, stamp, frame_id,
+                            observation, suggestion, source, overlay, output_dir, actions_path, stamp, frame_id,
                         )
                         if event.get("status") == "consistent_with_play" and record_verified_action is not None:
                             try:
