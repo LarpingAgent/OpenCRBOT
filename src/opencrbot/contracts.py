@@ -55,6 +55,7 @@ class DetectedUnit:
     x: Evidence[float]
     y: Evidence[float]
     detection_id: str
+    track_id: int | None = None
 
     def __post_init__(self) -> None:
         for axis in (self.x, self.y):
@@ -65,14 +66,23 @@ class DetectedUnit:
 
 
 @dataclass(frozen=True)
+class TowerObservation:
+    side: Literal["own", "opponent"]
+    kind: Literal["king", "princess"]
+    lane: Literal["L", "R"] | None
+    alive: Evidence[bool]
+    hp_frac: Evidence[float]
+
+
+@dataclass(frozen=True)
 class PublicObservation:
     """Versioned, screen/public-state contract shared by perception and policy."""
 
     frame_id: int
     serial: str
     captured_at_ms: int
-    screen_width: int
-    screen_height: int
+    screen_width: int | None
+    screen_height: int | None
     battle_clock_s: Evidence[float]
     battle_active: Evidence[bool]
     my_elixir: Evidence[float]
@@ -81,6 +91,9 @@ class PublicObservation:
     units: tuple[DetectedUnit, ...] = ()
     public_only: bool = True
     schema: str = OBSERVATION_SCHEMA
+    towers: tuple[TowerObservation, ...] = ()
+    battle_elapsed_s: Evidence[float] | None = None
+    my_next: Evidence[str] | None = None
 
     def __post_init__(self) -> None:
         if self.schema != OBSERVATION_SCHEMA:
@@ -89,8 +102,11 @@ class PublicObservation:
             raise ValueError("frame_id and captured_at_ms must be non-negative")
         if not self.serial:
             raise ValueError("serial is required")
-        if self.screen_width <= 0 or self.screen_height <= 0:
-            raise ValueError("screen dimensions must be positive")
+        if (self.screen_width is None) != (self.screen_height is None):
+            raise ValueError("screen dimensions must both be present or both be absent")
+        if self.screen_width is not None and self.screen_height is not None:
+            if self.screen_width <= 0 or self.screen_height <= 0:
+                raise ValueError("screen dimensions must be positive")
         if self.my_hand and len(self.my_hand) != 4:
             raise ValueError("hand must be empty or contain exactly four slots")
         if not self.public_only:
@@ -110,6 +126,8 @@ class ActionProposal:
     target_y: float
     confidence: float
     reason: str
+    expected_card: str
+    elixir_cost: int
 
     def __post_init__(self) -> None:
         if self.frame_id < 0:
@@ -124,6 +142,10 @@ class ActionProposal:
             raise ValueError("confidence must be finite and in [0, 1]")
         if not self.reason.strip():
             raise ValueError("reason is required")
+        if not self.expected_card.strip():
+            raise ValueError("expected_card is required")
+        if type(self.elixir_cost) is not int or not 1 <= self.elixir_cost <= 10:
+            raise ValueError("elixir_cost must be between 1 and 10")
 
 
 @dataclass(frozen=True)
@@ -153,6 +175,10 @@ def check_action_proposal(
         reasons.append("observation_timestamp_in_future")
     elif observation_age_ms > max_age_ms:
         reasons.append("observation_stale")
+    if (observation.battle_active.value is not True
+            or observation.battle_active.confidence < min_confidence
+            or not observation.battle_active.is_fresh(now_ms, max_age_ms)):
+        reasons.append("battle_unconfirmed_or_stale")
     if proposal.confidence < min_confidence:
         reasons.append("proposal_confidence_low")
     if len(observation.my_hand) != 4:
@@ -163,8 +189,16 @@ def check_action_proposal(
         reasons.append("card_slot_not_observed")
     elif observation.my_hand[proposal.card_slot].confidence < min_confidence:
         reasons.append("card_slot_confidence_low")
+    elif observation.my_hand[proposal.card_slot].value != proposal.expected_card:
+        reasons.append("card_slot_changed")
     if (observation.my_elixir.status != "observed"
             or observation.my_elixir.confidence < min_confidence
             or not observation.my_elixir.is_fresh(now_ms, max_age_ms)):
         reasons.append("elixir_unavailable_or_stale")
+    else:
+        elixir = observation.my_elixir.value
+        if elixir is None or not math.isfinite(elixir) or not 0 <= elixir <= 10:
+            reasons.append("elixir_invalid")
+        elif elixir < proposal.elixir_cost:
+            reasons.append("insufficient_elixir")
     return GateResult(not reasons, tuple(reasons))

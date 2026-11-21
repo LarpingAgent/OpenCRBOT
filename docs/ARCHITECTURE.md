@@ -13,13 +13,15 @@ flowchart LR
     CAP --> REC[Session recorder]
     CAP --> VIS[Vision providers]
     VIS --> OBS[Versioned public observation]
-    OBS --> POL[Policy interface]
+    OBS --> BOARD[ClashAI BoardState adapter]
+    BOARD --> POL[ClashAI policy - primary decision maker]
+    OBS --> BASE[Defensive hints - evaluation baseline]
     POL --> GATE[Freshness/confidence/action gate]
     GATE --> ACT[ADB action adapter]
     ACT --> VER[Visual action verification]
     VER --> REC
     OBS --> SIM[Offline evaluation adapter]
-    SIM --> POL
+    SIM --> BOARD
 ```
 
 โค้ดปัจจุบันทำถึง capture/recording, one-frame vision และ non-executable recommendation เท่านั้น กล่อง action gate, device action, verification และ simulator ในภาพเป็นเป้าหมายสถาปัตยกรรมที่ยังไม่ได้ implement
@@ -51,7 +53,7 @@ Each value should carry:
 
 The current vision provider emits `inferred` values only, including the battle-screen color heuristic. YOLO scores, template similarity and pixel-bar ratio are not calibrated probabilities for the GPGPC target.
 
-Screen-derived information is the default. Opponent hand/next card is never represented as exact unless a valid public event proves the play; elixir inference remains an interval/estimate. No guessed value may be serialized as exact.
+Screen-derived information is the default. The own `my_next` card is optional evidence and is mapped to a ClashAI ID only when a deck-known value is supplied; the current GPGPC vision provider does not read the small Next icon yet. Opponent hand/next card is never represented as exact unless a valid public event proves the play; elixir inference remains an interval/estimate. No guessed value may be serialized as exact.
 
 The board coordinate frame is normalized with own king at the bottom: `x,y ∈ [0,1]`. A separate calibrated transform maps board positions to screen pixels; it records orientation, crop and screen dimensions so a display layout change invalidates calibration.
 
@@ -76,7 +78,9 @@ Would require a separately maintained profile with exact package/build/ABI finge
 
 ## Policy and training strategy
 
-Start with deterministic, explainable rules from visible state. Add model inference only behind the policy interface. A model is loadable only when its manifest matches observation schema, action schema, card vocabulary, game/card-data version and checksum. Training requires captured/replay data with labels or an offline simulator adapter; training results are evaluated on held-out matches/captures before becoming the default.
+Use `vegetableleaf/ClashAI` as the primary decision-maker. OpenCRBOT supplies calibrated public observations from GPGPC and maps them to ClashAI's `BoardState`. ClashAI owns the decision to wait or play a card at a board position. The existing defensive rules serve as an evaluation baseline. When a compatible checkpoint or required observation is unavailable, the ClashAI path produces no recommendation.
+
+The `import-state clashai` command reads a `BoardState` into OpenCRBOT for offline inspection. Reverse adapters call ClashAI's own S1 and plain GenModel FV3 encoders and decision heads, and the offline session runner records wait/play recommendations with checkpoint and source hashes. The latest Colab FV3 generalist covers all eight recorded GPGPC deck identities and loads through the adapter. Corrected RoyaleGym evaluation supplies exact `my_next` from the engine and wins seeds 0–2 against a seeded-random opponent. An optional offline icon-template reader recognized `my_next` in 164/176 comparable frames from one CP3 capture; FV3 then recommended 94 plays and 82 waits, while the unchanged baseline suggested 35 plays. This is a same-match pilot with no independent accuracy or action-quality labels, so keep inference offline and recommendations non-executable. An optional path reconstructs approximate history from tracked-unit births; it is not a verified action log.
 
 The FirstLight/RoyaleFish V4 policy is coupled to native engine contracts and card catalogs; the ClashAI model uses a different schema and RoyaleSim. Those weights are not assumed compatible with screenshot observations.
 

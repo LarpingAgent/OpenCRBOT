@@ -1,0 +1,14 @@
+name: gpgpc_training_camp
+cards:
+  - archers
+  - arrows
+  - fireball
+  - giant
+  - knight
+  - mini_pekka
+  - minions
+  - musketeer
+config: ../icebow/config/config.yaml
+src_dir: ../icebow/src
+crawl_dir: ../icebow/data/royaleapi
+data_dir: ../icebow/data

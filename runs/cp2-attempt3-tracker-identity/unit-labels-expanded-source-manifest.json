@@ -1,0 +1,82 @@
+{
+  "schema": "opencrbot.unit-label-provenance.v1",
+  "labels_file": "runs/cp2-attempt3-tracker-identity/unit-labels-expanded-20261121.json",
+  "analysis_file": "runs/cp2-attempt3-tracker-reid-verified-session/session-20261121T024515Z-817471100.jsonl",
+  "session_manifest": "runs/training-match-cp7-attempt3-20261121/manifest.jsonl",
+  "review_method": "Manual visual review of the source screenshots; approximate ground-contact points.",
+  "hash_verification": "Each added source image SHA-256 matches its capture-manifest row.",
+  "added_frames": [
+    {
+      "frame_id": 42,
+      "source_file": "frame-000042.png",
+      "source_sha256": "a394776f4d335f85ea99c046edb5fe80bf59904462197279dda23831f5cfaf5c",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 254,
+        "pixel_y": 609,
+        "instance_id": "opponent-giant-01"
+      }
+    },
+    {
+      "frame_id": 44,
+      "source_file": "frame-000044.png",
+      "source_sha256": "ed527d5329d191690af7a1630a4a4427ef087c7b75224ca13eca46b91eb50704",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 254,
+        "pixel_y": 642,
+        "instance_id": "opponent-giant-01"
+      }
+    },
+    {
+      "frame_id": 46,
+      "source_file": "frame-000046.png",
+      "source_sha256": "1cf35e87a6d2a54b3ba92ea87b88934343b6f38f9f8e5a175e868aa789d68602",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 261,
+        "pixel_y": 688,
+        "instance_id": "opponent-giant-01"
+      }
+    },
+    {
+      "frame_id": 47,
+      "source_file": "frame-000047.png",
+      "source_sha256": "00f0db5601b2bad997a1c53b7ef038b6fd102bfdd1d480cfbf2cbf34d2e5ee1a",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 277,
+        "pixel_y": 700,
+        "instance_id": "opponent-giant-01"
+      }
+    },
+    {
+      "frame_id": 60,
+      "source_file": "frame-000060.png",
+      "source_sha256": "3b9da88709797c0282b78598256c5da4d05ae07b15b535b2c16ea0616cdab18a",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 314,
+        "pixel_y": 730,
+        "instance_id": "opponent-giant-01"
+      }
+    },
+    {
+      "frame_id": 61,
+      "source_file": "frame-000061.png",
+      "source_sha256": "5d59491368b5047e1c86852d037fefcba4c27195dca18db9a12be52f8fca1d98",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 325,
+        "pixel_y": 724,
+        "instance_id": "opponent-giant-01"
+      }
+    }
+  ]
+}

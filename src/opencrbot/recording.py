@@ -5,6 +5,7 @@ import json
 import math
 import struct
 import time
+from collections.abc import Callable
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -29,12 +30,13 @@ def _append_jsonl(path: Path, record: dict) -> None:
 
 
 def record_session(
-    client: AdbClient,
+    client: AdbClient | None,
     *,
     serial: str | None,
     output_dir: Path,
     duration_s: float,
     interval_ms: int,
+    capture: Callable[[], bytes] | None = None,
 ) -> tuple[int, Path]:
     if not math.isfinite(duration_s) or duration_s <= 0:
         raise ValueError("duration_s must be a positive finite number")
@@ -44,7 +46,17 @@ def record_session(
     if estimated_frames > MAX_CAPTURE_FRAMES:
         raise ValueError(f"capture would exceed the {MAX_CAPTURE_FRAMES}-frame safety limit")
 
-    selected_serial = client.resolve_serial(serial)
+    source = {}
+    if capture is None:
+        if client is None:
+            raise ValueError("Recording requires a capture source")
+        selected_serial = client.resolve_serial(serial)
+        source["adb"] = str(client.executable)
+
+        def capture() -> bytes:
+            return client.screenshot(selected_serial)
+    else:
+        selected_serial = serial
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=False)
     manifest = output_dir / "manifest.jsonl"
@@ -54,7 +66,7 @@ def record_session(
         "type": "session_started",
         "schema": "opencrbot.capture.v1",
         "serial": selected_serial,
-        "adb": str(client.executable),
+        **source,
         "started_at_utc": started_utc,
         "started_at_monotonic_ms": start_ms,
         "duration_s": duration_s,
@@ -71,7 +83,7 @@ def record_session(
             if frame_id >= MAX_CAPTURE_FRAMES:
                 raise ValueError(f"capture exceeded the {MAX_CAPTURE_FRAMES}-frame safety limit")
             capture_started_ms = int(time.monotonic() * 1000)
-            png = client.screenshot(selected_serial)
+            png = capture()
             captured_at_ms = int(time.monotonic() * 1000)
             width, height = png_dimensions(png)
             frame_id += 1
@@ -111,7 +123,7 @@ def record_session(
     return frame_id, output_dir
 
 
-def verify_session(session_dir: Path) -> tuple[int, str]:
+def _inspect_session(session_dir: Path) -> tuple[list[dict], str, int]:
     """Verify a capture manifest, frame order, hashes and PNG dimensions."""
     session_dir = session_dir.resolve()
     manifest = session_dir / "manifest.jsonl"
@@ -131,6 +143,11 @@ def verify_session(session_dir: Path) -> tuple[int, str]:
         raise ValueError("manifest is incomplete: session_finished is missing")
 
     frame_records = records[1:-1]
+    previous_digest = None
+    previous_ms = records[0].get("started_at_monotonic_ms")
+    if type(previous_ms) is not int:
+        raise ValueError("invalid session start timestamp")
+    identical_ms = longest_identical_ms = 0
     for expected_id, record in enumerate(frame_records, start=1):
         if record.get("type") != "frame_captured" or record.get("frame_id") != expected_id:
             raise ValueError(f"invalid frame sequence at manifest entry {expected_id}")
@@ -141,13 +158,70 @@ def verify_session(session_dir: Path) -> tuple[int, str]:
         if frame_path.parent != session_dir or not frame_path.is_file():
             raise ValueError(f"frame file missing or outside session directory: {filename}")
         data = frame_path.read_bytes()
-        if hashlib.sha256(data).hexdigest() != record.get("sha256"):
+        digest = hashlib.sha256(data).hexdigest()
+        if digest != record.get("sha256"):
             raise ValueError(f"SHA-256 mismatch for {filename}")
         if png_dimensions(data) != (record.get("width"), record.get("height")):
             raise ValueError(f"dimension mismatch for {filename}")
+        captured_ms = record.get("captured_at_monotonic_ms")
+        if type(captured_ms) is not int or captured_ms < previous_ms:
+            raise ValueError(f"invalid capture timestamp for {filename}")
+        if digest == previous_digest:
+            identical_ms += captured_ms - previous_ms
+            longest_identical_ms = max(longest_identical_ms, identical_ms)
+        else:
+            identical_ms = 0
+        previous_digest = digest
+        previous_ms = captured_ms
     finished = records[-1]
     if finished.get("frame_count") != len(frame_records):
         raise ValueError("session_finished frame_count does not match manifest")
     if finished.get("status") not in ("complete", "interrupted"):
         raise ValueError(f"capture session did not finish cleanly: {finished.get('status')}")
-    return len(frame_records), str(finished["status"])
+    return frame_records, str(finished["status"]), longest_identical_ms
+
+
+def inspect_session(session_dir: Path) -> tuple[int, str, int]:
+    frames, status, longest_identical_ms = _inspect_session(session_dir)
+    return len(frames), status, longest_identical_ms
+
+
+def verify_session(session_dir: Path) -> tuple[int, str]:
+    count, status, _ = inspect_session(session_dir)
+    return count, status
+
+
+def verified_frames(session_dir: Path) -> list[dict]:
+    frames, _, _ = _inspect_session(session_dir)
+    return frames
+
+
+def replay_session(session_dir: Path, *, speed: float = 1.0) -> int:
+    """Display verified frames at the recorded cadence until the session ends or Esc is pressed."""
+    if not math.isfinite(speed) or not 0.01 <= speed <= 100:
+        raise ValueError("Replay speed must be between 0.01 and 100")
+    frames, _, _ = _inspect_session(session_dir)
+    if not frames:
+        return 0
+    try:
+        import cv2
+    except ImportError as exc:
+        raise RuntimeError('Install replay with pip install -e ".[vision]".') from exc
+
+    from .vision import decode_image
+
+    title = "OpenCRBOT replay (Esc to stop)"
+    cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+    try:
+        for index, frame in enumerate(frames):
+            image = decode_image((session_dir / frame["file"]).read_bytes())
+            cv2.imshow(title, image)
+            delay = 500
+            if index + 1 < len(frames):
+                delta_ms = frames[index + 1]["captured_at_monotonic_ms"] - frame["captured_at_monotonic_ms"]
+                delay = max(1, round(delta_ms / speed))
+            if cv2.waitKey(delay) == 27 or cv2.getWindowProperty(title, cv2.WND_PROP_VISIBLE) < 1:
+                return index + 1
+    finally:
+        cv2.destroyAllWindows()
+    return len(frames)

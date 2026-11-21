@@ -1,0 +1,223 @@
+{
+  "source": "Manual visual identity labels from GPGPC Training Camp attempt 3; one opponent Giant tracked in every frame where it is visible from frames 48 through 59.; expanded with six additional manually reviewed frames (42, 44, 46, 47, 60, 61) from the same visible Giant instance; source-frame hashes checked against the original capture manifest.",
+  "evaluation_scope": "tracked_identities",
+  "coordinate_semantics": "Approximate ground-contact points in source screenshot pixels. This file labels only the same Giant instance and is not a full-frame unit annotation.",
+  "frames": [
+    {
+      "frame_id": 42,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 254,
+          "pixel_y": 609,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 44,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 254,
+          "pixel_y": 642,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 46,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 261,
+          "pixel_y": 688,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 47,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 277,
+          "pixel_y": 700,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 48,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 294,
+          "pixel_y": 720,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 49,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 306,
+          "pixel_y": 728,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 50,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 315,
+          "pixel_y": 731,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 51,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 312,
+          "pixel_y": 731,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 52,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 312,
+          "pixel_y": 731,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 53,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 317,
+          "pixel_y": 736,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 54,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 318,
+          "pixel_y": 737,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 55,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 323,
+          "pixel_y": 742,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 56,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 321,
+          "pixel_y": 732,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 57,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 326,
+          "pixel_y": 738,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 58,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 327,
+          "pixel_y": 737,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 59,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 329,
+          "pixel_y": 735,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 60,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 314,
+          "pixel_y": 730,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    },
+    {
+      "frame_id": 61,
+      "units": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 325,
+          "pixel_y": 724,
+          "instance_id": "opponent-giant-01"
+        }
+      ]
+    }
+  ]
+}

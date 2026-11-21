@@ -1,0 +1,546 @@
+{
+  "evaluation_scope": "tracked_identities",
+  "identity_tracking": {
+    "labeled_observations": 18,
+    "matched_observations": 17,
+    "detection_coverage": 0.944,
+    "track_id_observations": 17,
+    "track_id_coverage": 1.0,
+    "owner_correct": 15,
+    "owner_accuracy": 0.882,
+    "identity_switches": 0,
+    "instances": [
+      {
+        "instance_id": "opponent-giant-01",
+        "labeled_observations": 18,
+        "matched_observations": 17,
+        "track_id_observations": 17,
+        "unique_track_ids": [
+          17
+        ],
+        "identity_switches": 0,
+        "dominant_track_fraction": 1.0,
+        "observations": [
+          {
+            "frame_id": 42,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.918
+          },
+          {
+            "frame_id": 44,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.834
+          },
+          {
+            "frame_id": 46,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.945
+          },
+          {
+            "frame_id": 47,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.892
+          },
+          {
+            "frame_id": 48,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.928
+          },
+          {
+            "frame_id": 49,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.56
+          },
+          {
+            "frame_id": 50,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.612
+          },
+          {
+            "frame_id": 51,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.735
+          },
+          {
+            "frame_id": 52,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.614
+          },
+          {
+            "frame_id": 53,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.803
+          },
+          {
+            "frame_id": 54,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 1.346
+          },
+          {
+            "frame_id": 55,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 1.118
+          },
+          {
+            "frame_id": 56,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": false,
+            "distance_tiles": 0.671
+          },
+          {
+            "frame_id": 57,
+            "detected": false,
+            "track_id": null,
+            "owner_correct": null,
+            "distance_tiles": null
+          },
+          {
+            "frame_id": 58,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": false,
+            "distance_tiles": 1.107
+          },
+          {
+            "frame_id": 59,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.849
+          },
+          {
+            "frame_id": 60,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.892
+          },
+          {
+            "frame_id": 61,
+            "detected": true,
+            "track_id": 17,
+            "owner_correct": true,
+            "distance_tiles": 0.811
+          }
+        ]
+      }
+    ]
+  },
+  "frames": [
+    {
+      "frame_id": 42,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 254,
+            "pixel_y": 609,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.918,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": []
+    },
+    {
+      "frame_id": 44,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 254,
+            "pixel_y": 642,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.834,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "musketeer"
+      ]
+    },
+    {
+      "frame_id": 46,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 261,
+            "pixel_y": 688,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.945,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": []
+    },
+    {
+      "frame_id": 47,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 277,
+            "pixel_y": 700,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.892,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "musketeer"
+      ]
+    },
+    {
+      "frame_id": 48,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 294,
+            "pixel_y": 720,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.928,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": []
+    },
+    {
+      "frame_id": 49,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 306,
+            "pixel_y": 728,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.56,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": []
+    },
+    {
+      "frame_id": 50,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 315,
+            "pixel_y": 731,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.612,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "rascal-boy"
+      ]
+    },
+    {
+      "frame_id": 51,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 312,
+            "pixel_y": 731,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.735,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "rascal-boy"
+      ]
+    },
+    {
+      "frame_id": 52,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 312,
+            "pixel_y": 731,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.614,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "rascal-boy"
+      ]
+    },
+    {
+      "frame_id": 53,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 317,
+            "pixel_y": 736,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.803,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "cannon",
+        "knight"
+      ]
+    },
+    {
+      "frame_id": 54,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 318,
+            "pixel_y": 737,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 1.346,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin",
+        "goblin",
+        "goblin",
+        "goblin"
+      ]
+    },
+    {
+      "frame_id": 55,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 323,
+            "pixel_y": 742,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 1.118,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin",
+        "goblin",
+        "goblin",
+        "goblin",
+        "knight",
+        "the-log"
+      ]
+    },
+    {
+      "frame_id": 56,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 321,
+            "pixel_y": 732,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "own",
+          "distance_tiles": 0.671,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin",
+        "goblin",
+        "goblin",
+        "goblin",
+        "rascal-boy",
+        "knight"
+      ]
+    },
+    {
+      "frame_id": 57,
+      "matches": [],
+      "missed_labels": [
+        {
+          "card": "giant",
+          "owner": "opponent",
+          "pixel_x": 326,
+          "pixel_y": 738,
+          "instance_id": "opponent-giant-01"
+        }
+      ],
+      "unmatched_predictions": [
+        "royal-giant",
+        "rascal-boy",
+        "goblin",
+        "goblin"
+      ]
+    },
+    {
+      "frame_id": 58,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 327,
+            "pixel_y": 737,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "own",
+          "distance_tiles": 1.107,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin"
+      ]
+    },
+    {
+      "frame_id": 59,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 329,
+            "pixel_y": 735,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.849,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin",
+        "musketeer",
+        "goblin"
+      ]
+    },
+    {
+      "frame_id": 60,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 314,
+            "pixel_y": 730,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.892,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "goblin",
+        "goblin",
+        "goblin"
+      ]
+    },
+    {
+      "frame_id": 61,
+      "matches": [
+        {
+          "expected": {
+            "card": "giant",
+            "owner": "opponent",
+            "pixel_x": 325,
+            "pixel_y": 724,
+            "instance_id": "opponent-giant-01"
+          },
+          "owner": "opponent",
+          "distance_tiles": 0.811,
+          "track_id": 17
+        }
+      ],
+      "missed_labels": [],
+      "unmatched_predictions": [
+        "spear-goblin",
+        "spear-goblin",
+        "spear-goblin",
+        "goblin",
+        "rascal-boy"
+      ]
+    }
+  ]
+}
