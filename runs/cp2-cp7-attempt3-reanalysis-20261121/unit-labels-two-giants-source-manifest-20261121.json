@@ -1,0 +1,71 @@
+{
+  "schema": "opencrbot.unit-label-provenance.v1",
+  "labels_file": "runs/cp2-cp7-attempt3-reanalysis-20261121/unit-labels-two-giants-20261121.json",
+  "analysis_file": "runs/cp2-cp7-attempt3-reanalysis-20261121/session-20261121T051442Z-570555200.jsonl",
+  "session_manifest": "runs/training-match-cp7-attempt3-20261121/manifest.jsonl",
+  "base_labels_file": "runs/cp2-attempt3-tracker-identity/unit-labels-expanded-20261121.json",
+  "base_source_manifest": "runs/cp2-attempt3-tracker-identity/unit-labels-expanded-source-manifest.json",
+  "review_method": "Manual visual review of original screenshots; approximate ground-contact points.",
+  "added_frame_hash_verification": "SHA-256 for each newly labeled source image matches the capture-manifest row.",
+  "added_frames": [
+    {
+      "frame_id": 1,
+      "source_file": "frame-000001.png",
+      "source_sha256": "71c69ed7799933c4d58765826fd333aa97414d6a849a8cc564ba5a043a169f35",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 218,
+        "pixel_y": 470,
+        "instance_id": "opponent-giant-early-01"
+      }
+    },
+    {
+      "frame_id": 8,
+      "source_file": "frame-000008.png",
+      "source_sha256": "0622ce0138c6be051cc4ef37fc2c2cffaee711dfc3787ed487d68dda48a491bd",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 217,
+        "pixel_y": 590,
+        "instance_id": "opponent-giant-early-01"
+      }
+    },
+    {
+      "frame_id": 24,
+      "source_file": "frame-000024.png",
+      "source_sha256": "5865fef16a0a9b726abad685a3aa2328088605a855609e9dc9cdcbe8fe989de3",
+      "label": {
+        "card": "giant",
+        "owner": "opponent",
+        "pixel_x": 265,
+        "pixel_y": 704,
+        "instance_id": "opponent-giant-early-01"
+      }
+    }
+  ],
+  "asset_provenance": {
+    "yolo_weights_sha256": "b0c2afc3c55fbcfbaf467956f03e4feada10f203a44f57003ccfc545d8fd5379",
+    "card_templates_sha256": "bd0fd7c1776f242f572f966af7429238d96c1aacec3ca4c26bf228fbb918d40d",
+    "next_card_templates_sha256": null,
+    "calibration_sha256": "1b9aedb520d45b910ef5e31626a13d0d0e306bc4d3948f264b57a2f3263808c9",
+    "clock_templates_sha256": null,
+    "rubble_template_sha256": null,
+    "tracking_enabled": true,
+    "runtime": {
+      "ultralytics": "8.4.215",
+      "torch": "2.15.0",
+      "numpy": "2.5.5",
+      "opencv_python": "5.1.0.95",
+      "lap": "0.5.14"
+    },
+    "card_reader": {
+      "algorithm": "orb-template-matching.v1",
+      "minimum_good_matches": 12,
+      "minimum_label_margin": 6,
+      "templates_per_card": 1
+    },
+    "tracker_id_policy": "class-stable.short-gap-reid.v2"
+  }
+}

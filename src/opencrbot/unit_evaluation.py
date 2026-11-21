@@ -59,7 +59,9 @@ def _score_frame(row: dict, truth: list[dict]) -> dict:
     left, top, right, bottom = bounds
     width, height = observation["screen_width"], observation["screen_height"]
     predictions = [unit for unit in observation["units"]
-                   if unit["card"]["value"] not in {"king-tower", "queen-tower", "princess-tower"}]
+                   if unit["card"]["value"] not in {
+                       "king-tower", "queen-tower", "princess-tower", "dagger-duchess-tower",
+                   }]
     candidates = []
     for i, label in enumerate(truth):
         tx = 18 * (label["pixel_x"] / width - left) / (right - left)

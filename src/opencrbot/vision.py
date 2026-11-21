@@ -24,7 +24,7 @@ _NEXT_CARD_MIN_MARGIN = 0.10
 _TRACKER_REID_MAX_GAP = 2
 _TRACKER_REID_MAX_DISTANCE_TILES = 1.25
 _TRACKER_REID_AMBIGUITY_MARGIN_TILES = 0.25
-_TOWER_NAMES = {"king-tower", "queen-tower", "princess-tower"}
+_TOWER_NAMES = {"king-tower", "queen-tower", "princess-tower", "dagger-duchess-tower"}
 _MODEL_UI = {
     "bar", "bar-level", "tower-bar", "king-tower-bar", "dagger-duchess-tower-bar",
     "skeleton-king-bar", "elixir", "clock", "emote", "evolution-symbol",
